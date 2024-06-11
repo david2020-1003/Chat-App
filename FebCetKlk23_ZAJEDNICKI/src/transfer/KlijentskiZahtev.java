@@ -11,5 +11,32 @@ import java.io.Serializable;
  * @author PC
  */
 public class KlijentskiZahtev implements Serializable {
+    private int operacija;
+    private Object param;
+
+    public KlijentskiZahtev() {
+    }
+
+    public KlijentskiZahtev(int operacija, Object param) {
+        this.operacija = operacija;
+        this.param = param;
+    }
+
+    public int getOperacija() {
+        return operacija;
+    }
+
+    public void setOperacija(int operacija) {
+        this.operacija = operacija;
+    }
+
+    public Object getParam() {
+        return param;
+    }
+
+    public void setParam(Object param) {
+        this.param = param;
+    }
+    
     
 }
