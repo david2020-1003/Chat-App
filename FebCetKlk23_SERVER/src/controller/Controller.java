@@ -5,6 +5,7 @@
 package controller;
 
 import baza.DBBroker;
+import model.Admin;
 
 /**
  *
@@ -13,6 +14,7 @@ import baza.DBBroker;
 public class Controller {
     private static Controller instance;
     private DBBroker dbb;
+    private Admin admin;
 
     private Controller(){
         dbb = new DBBroker();
@@ -23,6 +25,23 @@ public class Controller {
             instance = new Controller();
         }
         return instance;
+    }
+
+    public boolean login(String username, String pass) {
+        admin = dbb.login(username,pass);
+        if(admin == null){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
     }
     
     
