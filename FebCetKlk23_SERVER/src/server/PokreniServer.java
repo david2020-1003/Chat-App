@@ -44,5 +44,14 @@ public class PokreniServer extends Thread {
         this.s = s;
     }
     
+    public void zaustaviServer(){
+        try {
+            kraj = true;
+            serverskiSoket.close();
+            System.out.println("Soket je zatvoren");
+        } catch (IOException ex) {
+            Logger.getLogger(PokreniServer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
 }

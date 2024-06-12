@@ -6,6 +6,7 @@ package forme;
 
 import controller.Controller;
 import model.Admin;
+import server.PokreniServer;
 
 /**
  *
@@ -13,12 +14,14 @@ import model.Admin;
  */
 public class ServerskaForma extends javax.swing.JFrame {
     private Admin admin = Controller.getInstance().getAdmin();
+    private PokreniServer ps;
     /**
      * Creates new form ServerskaForma
      */
     public ServerskaForma() {
         initComponents();
         jLabelAdmin.setText("Zdravo, " + admin.toString());
+        jButtonZaustavi.setEnabled(false);
     }
 
     /**
@@ -31,30 +34,85 @@ public class ServerskaForma extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabelAdmin = new javax.swing.JLabel();
+        jButtonPokreni = new javax.swing.JButton();
+        jButtonZaustavi = new javax.swing.JButton();
+        jButtonUnesi = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabelAdmin.setText("jLabel1");
+
+        jButtonPokreni.setText("Pokreni Server");
+        jButtonPokreni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPokreniActionPerformed(evt);
+            }
+        });
+
+        jButtonZaustavi.setText("Zaustavi server");
+        jButtonZaustavi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonZaustaviActionPerformed(evt);
+            }
+        });
+
+        jButtonUnesi.setText("Unesi Korisnika");
+        jButtonUnesi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonUnesiActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(68, 68, 68)
-                .addComponent(jLabelAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(460, Short.MAX_VALUE))
+                .addGap(41, 41, 41)
+                .addComponent(jLabelAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonUnesi)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonPokreni)
+                        .addGap(47, 47, 47)
+                        .addComponent(jButtonZaustavi, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(192, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(jLabelAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(322, Short.MAX_VALUE))
+                .addGap(36, 36, 36)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonPokreni)
+                    .addComponent(jButtonZaustavi))
+                .addGap(64, 64, 64)
+                .addComponent(jButtonUnesi)
+                .addContainerGap(249, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonPokreniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPokreniActionPerformed
+        ps = new PokreniServer();
+        ps.start();
+        jButtonPokreni.setEnabled(false);
+        jButtonZaustavi.setEnabled(true);
+    }//GEN-LAST:event_jButtonPokreniActionPerformed
+
+    private void jButtonZaustaviActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonZaustaviActionPerformed
+        ps.zaustaviServer();
+        jButtonPokreni.setEnabled(true);
+        jButtonZaustavi.setEnabled(false);
+    }//GEN-LAST:event_jButtonZaustaviActionPerformed
+
+    private void jButtonUnesiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUnesiActionPerformed
+        UnosKorisnikaForma ukf = new UnosKorisnikaForma(this, rootPaneCheckingEnabled);
+        ukf.setVisible(true);
+  
+    }//GEN-LAST:event_jButtonUnesiActionPerformed
 
     /**
      * @param args the command line arguments
@@ -92,6 +150,9 @@ public class ServerskaForma extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonPokreni;
+    private javax.swing.JButton jButtonUnesi;
+    private javax.swing.JButton jButtonZaustavi;
     private javax.swing.JLabel jLabelAdmin;
     // End of variables declaration//GEN-END:variables
 }

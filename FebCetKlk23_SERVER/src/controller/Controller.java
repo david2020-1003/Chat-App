@@ -5,6 +5,14 @@
 package controller;
 
 import baza.DBBroker;
+import baza.Konekcija;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import model.Admin;
 
 /**
@@ -42,6 +50,14 @@ public class Controller {
 
     public void setAdmin(Admin admin) {
         this.admin = admin;
+    }
+
+    public boolean proveriKorIme(String korIme) {
+        return dbb.proveriKorIme(korIme);
+    }
+
+    public boolean unesiKorisnika(String korIme, String lozinka) {
+        return dbb.unesiKorisnika(korIme,lozinka);
     }
     
     

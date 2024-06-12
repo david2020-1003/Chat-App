@@ -4,11 +4,14 @@
  */
 package baza;
 
+import controller.Controller;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import model.Admin;
 
 /**
@@ -36,6 +39,47 @@ public class DBBroker {
             Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
         }
         return a;
+    }
+
+    public boolean proveriKorIme(String korIme) {
+        try {
+            String upit = "SELECT * FROM USER WHERE korisnickoIme ='" + korIme + "'";
+            Statement st = Konekcija.getInstance().getConnection().createStatement();
+            
+            ResultSet rs = st.executeQuery(upit);
+            if(rs.next()){
+                return false;
+            }else{
+                return true;
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return true;
+    }
+
+    public boolean unesiKorisnika(String korIme, String lozinka) {
+        try {
+            String upit = "INSERT INTO USER (korisnickoIme,lozinka) VALUES (?,?)";
+            
+            PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
+            ps.setString(1, korIme);
+            ps.setString(2, lozinka);
+            
+            int brojRedova = ps.executeUpdate();
+            if(brojRedova > 0){
+                JOptionPane.showMessageDialog(null, "Uspesan unos");
+                Konekcija.getInstance().getConnection().commit();
+                return true;
+            }else{
+                JOptionPane.showMessageDialog(null, "Neuspesan unos");
+                return false;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return true;
     }
     
 }
