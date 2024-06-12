@@ -9,10 +9,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import model.Admin;
+import model.Poruka;
+import model.User;
 
 /**
  *
@@ -69,7 +75,6 @@ public class DBBroker {
             
             int brojRedova = ps.executeUpdate();
             if(brojRedova > 0){
-                JOptionPane.showMessageDialog(null, "Uspesan unos");
                 Konekcija.getInstance().getConnection().commit();
                 return true;
             }else{
@@ -80,6 +85,38 @@ public class DBBroker {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
         return true;
+    }
+
+    public List<Poruka> vratiPoruke() {
+        List<Poruka> lista = new ArrayList<>();
+        try {
+            String upit = "SELECT * FROM PORUKA p JOIN USER pos ON\n" +
+                    "pos.userId = p.posiljalac JOIN USER prim ON\n" +
+                    "prim.userId = p.primalac";
+            
+            PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
+            ResultSet rs = ps.executeQuery();
+            
+            while(rs.next()){
+                int id = rs.getInt("p.id");
+                User posiljalac = new User(rs.getInt("pos.userId"),
+                        rs.getString("pos.korisnickoIme"), 
+                        rs.getString("pos.lozinka"));
+                User primalac = new User(rs.getInt("prim.userId"),
+                        rs.getString("prim.korisnickoIme"), 
+                        rs.getString("prim.lozinka"));
+                Timestamp datumVremeSQL = rs.getTimestamp("p.datumVreme");
+                Date datumVremeUtil = new Date(datumVremeSQL.getTime());
+                
+                String tekst = rs.getString("p.tekst");
+                Poruka p = new Poruka(id, posiljalac, primalac, datumVremeUtil, tekst);
+                lista.add(p);
+            }
+            return lista;
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
 }

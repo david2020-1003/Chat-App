@@ -10,10 +10,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import model.Admin;
+import model.Poruka;
 
 /**
  *
@@ -58,6 +60,10 @@ public class Controller {
 
     public boolean unesiKorisnika(String korIme, String lozinka) {
         return dbb.unesiKorisnika(korIme,lozinka);
+    }
+
+    public List<Poruka> vratiPoruke() {
+        return dbb.vratiPoruke();
     }
     
     

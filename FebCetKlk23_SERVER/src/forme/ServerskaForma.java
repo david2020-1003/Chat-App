@@ -5,7 +5,13 @@
 package forme;
 
 import controller.Controller;
+import forme.model.ModelTabelePoruka;
+import java.awt.Point;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import model.Admin;
+import model.Poruka;
 import server.PokreniServer;
 
 /**
@@ -37,6 +43,9 @@ public class ServerskaForma extends javax.swing.JFrame {
         jButtonPokreni = new javax.swing.JButton();
         jButtonZaustavi = new javax.swing.JButton();
         jButtonUnesi = new javax.swing.JButton();
+        jButtonPrikaziPoruke = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTablePoruke = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,21 +72,52 @@ public class ServerskaForma extends javax.swing.JFrame {
             }
         });
 
+        jButtonPrikaziPoruke.setText("Prikazi Poruke");
+        jButtonPrikaziPoruke.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPrikaziPorukeActionPerformed(evt);
+            }
+        });
+
+        jTablePoruke.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTablePoruke.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTablePorukeMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTablePoruke);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addComponent(jLabelAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonUnesi)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addComponent(jLabelAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(39, 39, 39)
                         .addComponent(jButtonPokreni)
-                        .addGap(47, 47, 47)
-                        .addComponent(jButtonZaustavi, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(192, Short.MAX_VALUE))
+                        .addGap(26, 26, 26)
+                        .addComponent(jButtonZaustavi, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(51, 51, 51)
+                        .addComponent(jButtonUnesi)
+                        .addGap(76, 76, 76)
+                        .addComponent(jButtonPrikaziPoruke, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(82, 82, 82)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(157, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -86,10 +126,12 @@ public class ServerskaForma extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonPokreni)
-                    .addComponent(jButtonZaustavi))
-                .addGap(64, 64, 64)
-                .addComponent(jButtonUnesi)
-                .addContainerGap(249, Short.MAX_VALUE))
+                    .addComponent(jButtonZaustavi)
+                    .addComponent(jButtonUnesi)
+                    .addComponent(jButtonPrikaziPoruke))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(110, 110, 110))
         );
 
         pack();
@@ -113,6 +155,22 @@ public class ServerskaForma extends javax.swing.JFrame {
         ukf.setVisible(true);
   
     }//GEN-LAST:event_jButtonUnesiActionPerformed
+
+    private void jButtonPrikaziPorukeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPrikaziPorukeActionPerformed
+        List<Poruka> poruke = Controller.getInstance().vratiPoruke();
+        ModelTabelePoruka mtp = new ModelTabelePoruka(poruke);
+        jTablePoruke.setModel(mtp);
+    }//GEN-LAST:event_jButtonPrikaziPorukeActionPerformed
+
+    private void jTablePorukeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePorukeMouseClicked
+        JTable tabela = (JTable) evt.getSource();
+        Point p = evt.getPoint();
+        int red = tabela.rowAtPoint(p);
+        
+        ModelTabelePoruka mtp = (ModelTabelePoruka) jTablePoruke.getModel();
+        String teskt = mtp.getLista().get(red).getTekst();
+        JOptionPane.showMessageDialog(null, teskt);
+    }//GEN-LAST:event_jTablePorukeMouseClicked
 
     /**
      * @param args the command line arguments
@@ -151,8 +209,11 @@ public class ServerskaForma extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonPokreni;
+    private javax.swing.JButton jButtonPrikaziPoruke;
     private javax.swing.JButton jButtonUnesi;
     private javax.swing.JButton jButtonZaustavi;
     private javax.swing.JLabel jLabelAdmin;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTablePoruke;
     // End of variables declaration//GEN-END:variables
 }

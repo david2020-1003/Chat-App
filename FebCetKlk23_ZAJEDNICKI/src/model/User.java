@@ -11,15 +11,15 @@ import java.util.Objects;
  *
  * @author PC
  */
-public class Korisnik implements Serializable {
+public class User implements Serializable {
     private int id;
     private String korIme;
     private String korSifra;
 
-    public Korisnik() {
+    public User() {
     }
 
-    public Korisnik(int id, String korIme, String korSifra) {
+    public User(int id, String korIme, String korSifra) {
         this.id = id;
         this.korIme = korIme;
         this.korSifra = korSifra;
@@ -71,7 +71,7 @@ public class Korisnik implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Korisnik other = (Korisnik) obj;
+        final User other = (User) obj;
         if (this.id != other.id) {
             return false;
         }
