@@ -7,6 +7,7 @@ package forme;
 import controller.Controller;
 import forme.model.ModelTabelePoruka;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -21,6 +22,7 @@ import server.PokreniServer;
 public class ServerskaForma extends javax.swing.JFrame {
     private Admin admin = Controller.getInstance().getAdmin();
     private PokreniServer ps;
+    private int offset = 0;
     /**
      * Creates new form ServerskaForma
      */
@@ -48,6 +50,11 @@ public class ServerskaForma extends javax.swing.JFrame {
         jTablePoruke = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+        });
 
         jLabelAdmin.setText("jLabel1");
 
@@ -157,9 +164,7 @@ public class ServerskaForma extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonUnesiActionPerformed
 
     private void jButtonPrikaziPorukeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPrikaziPorukeActionPerformed
-        List<Poruka> poruke = Controller.getInstance().vratiPoruke();
-        ModelTabelePoruka mtp = new ModelTabelePoruka(poruke);
-        jTablePoruke.setModel(mtp);
+        ucitajTabelu();
     }//GEN-LAST:event_jButtonPrikaziPorukeActionPerformed
 
     private void jTablePorukeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePorukeMouseClicked
@@ -171,6 +176,12 @@ public class ServerskaForma extends javax.swing.JFrame {
         String teskt = mtp.getLista().get(red).getTekst();
         JOptionPane.showMessageDialog(null, teskt);
     }//GEN-LAST:event_jTablePorukeMouseClicked
+
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+       if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+           ucitajTabelu();
+       }
+    }//GEN-LAST:event_formKeyPressed
 
     /**
      * @param args the command line arguments
@@ -216,4 +227,12 @@ public class ServerskaForma extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTablePoruke;
     // End of variables declaration//GEN-END:variables
+
+    private void ucitajTabelu() {
+        List<Poruka> poruke = Controller.getInstance().vratiPoruke(offset);
+        ModelTabelePoruka mtp = new ModelTabelePoruka(poruke);
+        jTablePoruke.setModel(mtp);
+        
+        offset+=5;
+    }
 }

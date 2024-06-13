@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import model.Admin;
 import model.Poruka;
+import model.User;
 
 /**
  *
@@ -62,8 +63,12 @@ public class Controller {
         return dbb.unesiKorisnika(korIme,lozinka);
     }
 
-    public List<Poruka> vratiPoruke() {
-        return dbb.vratiPoruke();
+    public List<Poruka> vratiPoruke(int offset) {
+        return dbb.vratiPoruke(offset);
+    }
+
+    public User loginUsera(User user) {
+        return dbb.loginUsera(user);
     }
     
     

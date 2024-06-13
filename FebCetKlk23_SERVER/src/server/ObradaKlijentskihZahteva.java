@@ -4,12 +4,14 @@
  */
 package server;
 
+import controller.Controller;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.User;
 import operacije.Operacije;
 import transfer.KlijentskiZahtev;
 import transfer.ServerskiOdgovor;
@@ -37,7 +39,8 @@ public class ObradaKlijentskihZahteva extends Thread {
             
             switch(kz.getOperacija()){
                 case Operacije.LOGIN:
-                    so.setOdgovor(kz.getParam());
+                    User u = Controller.getInstance().loginUsera((User)kz.getParam());
+                    so.setOdgovor(u);
                     break;
             }
             posaljiOdgovor(so);

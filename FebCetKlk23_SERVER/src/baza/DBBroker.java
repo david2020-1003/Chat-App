@@ -87,12 +87,12 @@ public class DBBroker {
         return true;
     }
 
-    public List<Poruka> vratiPoruke() {
+    public List<Poruka> vratiPoruke(int offset) {
         List<Poruka> lista = new ArrayList<>();
         try {
             String upit = "SELECT * FROM PORUKA p JOIN USER pos ON\n" +
                     "pos.userId = p.posiljalac JOIN USER prim ON\n" +
-                    "prim.userId = p.primalac";
+                    "prim.userId = p.primalac LIMIT 5 OFFSET " + offset;
             
             PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
             ResultSet rs = ps.executeQuery();
@@ -117,6 +117,31 @@ public class DBBroker {
             Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    public User loginUsera(User user) {
+        User u = null;
+        try {
+            String upit = "SELECT * FROM USER WHERE KORISNICKOIME = ? AND LOZINKA = ?";
+            PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
+            
+            ps.setString(1, user.getKorIme());
+            ps.setString(2, user.getKorSifra());
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs.next()){
+                int id = rs.getInt("userId");
+                String korIme = rs.getString("korisnickoIme");
+                String lozinka = rs.getString("lozinka");
+                u = new User(id, korIme, korIme);
+                return u;
+            }
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return u;
     }
     
 }
