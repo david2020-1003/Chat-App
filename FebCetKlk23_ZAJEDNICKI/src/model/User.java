@@ -12,46 +12,48 @@ import java.util.Objects;
  * @author PC
  */
 public class User implements Serializable {
-    private int id;
-    private String korIme;
-    private String korSifra;
+    private int userId;
+    private String korisnickoIme;
+    private String lozinka;
 
     public User() {
     }
 
-    public User(int id, String korIme, String korSifra) {
-        this.id = id;
-        this.korIme = korIme;
-        this.korSifra = korSifra;
+    public User(int userId, String korisnickoIme, String lozinka) {
+        this.userId = userId;
+        this.korisnickoIme = korisnickoIme;
+        this.lozinka = lozinka;
     }
 
-    public int getId() {
-        return id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public String getKorIme() {
-        return korIme;
+    public String getKorisnickoIme() {
+        return korisnickoIme;
     }
 
-    public void setKorIme(String korIme) {
-        this.korIme = korIme;
+    public void setKorisnickoIme(String korisnickoIme) {
+        this.korisnickoIme = korisnickoIme;
     }
 
-    public String getKorSifra() {
-        return korSifra;
+    public String getLozinka() {
+        return lozinka;
     }
 
-    public void setKorSifra(String korSifra) {
-        this.korSifra = korSifra;
+    public void setLozinka(String lozinka) {
+        this.lozinka = lozinka;
     }
+
+    
 
     @Override
     public String toString() {
-        return "Korisnik{" + "id=" + id + ", korIme=" + korIme + '}';
+        return "Korisnik{" + "userId=" + userId + ", korIme=" + korisnickoIme + '}';
     }
 
     @Override
@@ -72,10 +74,10 @@ public class User implements Serializable {
             return false;
         }
         final User other = (User) obj;
-        if (this.id != other.id) {
+        if (this.userId != other.userId) {
             return false;
         }
-        return Objects.equals(this.korIme, other.korIme);
+        return Objects.equals(this.korisnickoIme, other.korisnickoIme);
     }
     
     

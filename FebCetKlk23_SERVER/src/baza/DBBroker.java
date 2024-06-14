@@ -125,15 +125,15 @@ public class DBBroker {
             String upit = "SELECT * FROM USER WHERE KORISNICKOIME = ? AND LOZINKA = ?";
             PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
             
-            ps.setString(1, user.getKorIme());
-            ps.setString(2, user.getKorSifra());
+            ps.setString(1, user.getKorisnickoIme());
+            ps.setString(2, user.getLozinka());
             ResultSet rs = ps.executeQuery();
             
             if(rs.next()){
                 int id = rs.getInt("userId");
                 String korIme = rs.getString("korisnickoIme");
                 String lozinka = rs.getString("lozinka");
-                u = new User(id, korIme, korIme);
+                u = new User(id, korIme, lozinka);
                 return u;
             }
             
@@ -143,5 +143,105 @@ public class DBBroker {
         }
         return u;
     }
+    
+    public List<User> vratiSveUlogovane(){
+        List<User> ulogovaniKorisnici = new ArrayList<>();
+        try {
+            String upit = "SELECT * FROM USER";
+            Statement st = Konekcija.getInstance().getConnection().createStatement();
+            ResultSet rs = st.executeQuery(upit);
+            
+            while(rs.next()){
+                int id = rs.getInt("userId");
+                String korIme = rs.getString("korisnickoIme");
+                String lozinka = rs.getString("lozinka");
+                User u = new User(id, korIme, lozinka);
+                ulogovaniKorisnici.add(u);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ulogovaniKorisnici;
+    }
+
+    public void posaljiSvima(Poruka poruka) {
+        try {
+            List<User> trenutnoUlogovani = vratiSveUlogovane();
+            String upit = "INSERT INTO PORUKA (datumVreme,posiljalac,primalac,tekst) VALUES (?,?,?,?)";
+            PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
+            
+            for (User u : trenutnoUlogovani) {
+                Timestamp ts = new Timestamp(poruka.getDatumVreme().getTime());
+                ps.setTimestamp(1, ts);
+                ps.setInt(2, poruka.getPosiljalac().getUserId());
+                ps.setInt(3, u.getUserId());
+                ps.setString(4, poruka.getTekst());
+                
+                ps.addBatch();
+            }
+            ps.executeBatch();
+            Konekcija.getInstance().getConnection().commit();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void posaljiJednom(Poruka poruka) {
+        try {
+            String upit = "INSERT INTO PORUKA (datumVreme,posiljalac,primalac,tekst) VALUES (?,?,?,?)";
+            PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
+            
+            Timestamp ts = new Timestamp(poruka.getDatumVreme().getTime());
+            ps.setTimestamp(1, ts);
+            ps.setInt(2, poruka.getPosiljalac().getUserId());
+            ps.setInt(3, poruka.getPrimalac().getUserId());
+            ps.setString(4, poruka.getTekst());
+            
+            int brojRedova = ps.executeUpdate();
+            if(brojRedova > 0){
+                JOptionPane.showMessageDialog(null, "Uspesno ste poslali poruku");
+            }else{
+                JOptionPane.showMessageDialog(null, "Neuspesno ste poslali poruku");
+                return;
+            }
+            Konekcija.getInstance().getConnection().commit();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }
+
+    public List<Poruka> vratiSvePorukeKorisnika(User user) {
+        List<Poruka> svePoruke = new ArrayList<>();
+        try {
+            
+            String upit = "SELECT * FROM PORUKA P JOIN USER POS ON POS.USERID = p.POSILJALAC WHERE POSILJALAC =" + user.getUserId();
+            Statement st = Konekcija.getInstance().getConnection().createStatement();
+            
+            ResultSet rs = st.executeQuery(upit);
+            
+            while(rs.next()){
+                int id = rs.getInt("p.id");
+                User posiljalac = new User(rs.getInt("pos.userId"),
+                        rs.getString("korisnickoIme"), 
+                        rs.getString("lozinka"));
+                User primalac = user;
+                Timestamp datumVremeSQL = rs.getTimestamp("p.datumVreme");
+                Date datumVremeUtil = new Date(datumVremeSQL.getTime());
+                String tekst = rs.getString("p.tekst");
+                
+                Poruka p = new Poruka(id, posiljalac, primalac, datumVremeUtil, tekst);
+                svePoruke.add(p);
+            }
+            return svePoruke;
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return svePoruke;
+    }
+
+    
     
 }

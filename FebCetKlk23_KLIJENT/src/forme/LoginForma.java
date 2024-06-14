@@ -108,7 +108,8 @@ public class LoginForma extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Greska, user je null");
         }else{
             JOptionPane.showMessageDialog(null, "Uspesno");
-            KlijentskaForma kf = new KlijentskaForma();
+            KlijentskaForma kf = new KlijentskaForma(u);
+            kf.setKorisnik(u);
             kf.setVisible(true);
             this.dispose();
         }

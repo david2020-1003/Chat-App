@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +27,7 @@ public class Controller {
     private static Controller instance;
     private DBBroker dbb;
     private Admin admin;
+    private List<User> ulogovaniKorisnici = new ArrayList<>();
 
     private Controller(){
         dbb = new DBBroker();
@@ -68,8 +70,30 @@ public class Controller {
     }
 
     public User loginUsera(User user) {
+        User u = dbb.loginUsera(user);
+        if(!ulogovaniKorisnici.contains(u)){
+            ulogovaniKorisnici.add(u);
+        }
         return dbb.loginUsera(user);
     }
+
+    public void posaljiSvima(Poruka poruka) {
+        dbb.posaljiSvima(poruka);
+    }
+
+    public List<User> getUlogovaniKorisnici() {
+        return ulogovaniKorisnici;
+    }
+
+    public void posaljiJednom(Poruka poruka) {
+        dbb.posaljiJednom(poruka);
+    }
+
+    public List<Poruka> vratiSvePorukeKorsinika(User user) {
+        return dbb.vratiSvePorukeKorisnika(user);
+    }
+
+    
     
     
 }

@@ -4,17 +4,83 @@
  */
 package forme;
 
+import forme.model.ModelTabeleKorisnika;
+import forme.model.ModelTabelePoruka;
+import forme.niti.Nit;
+import java.awt.Point;
+import java.util.Date;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import komunikacija.Komunikacija;
+import model.Poruka;
+import model.User;
+import operacije.Operacije;
+import transfer.KlijentskiZahtev;
+import transfer.ServerskiOdgovor;
+
 /**
  *
  * @author PC
  */
 public class KlijentskaForma extends javax.swing.JFrame {
+    private User korisnik;
+    
+    public User getKorisnik() {
+        return korisnik;
+    }
 
+    public void setKorisnik(User korisnik) {
+        this.korisnik = korisnik;
+    }
     /**
      * Creates new form KlijentskaForma
      */
-    public KlijentskaForma() {
+    public KlijentskaForma(User u) {
         initComponents();
+        
+        this.korisnik=u;
+        
+        Nit n = new Nit();
+        n.setKf(this);
+        n.start();
+        
+        
+        
+        
+    }
+
+    public JTable getjTableOstalePoruke() {
+        return jTableOstalePoruke;
+    }
+
+    public void setjTableOstalePoruke(JTable jTableOstalePoruke) {
+        this.jTableOstalePoruke = jTableOstalePoruke;
+    }
+
+    public JTable getjTablePoslednje3Poruke() {
+        return jTablePoslednje3Poruke;
+    }
+
+    public void setjTablePoslednje3Poruke(JTable jTablePoslednje3Poruke) {
+        this.jTablePoslednje3Poruke = jTablePoslednje3Poruke;
+    }
+
+    public JTable getjTableTrenutnoUlogovani() {
+        return jTableTrenutnoUlogovani;
+    }
+
+    public void setjTableTrenutnoUlogovani(JTable jTableTrenutnoUlogovani) {
+        this.jTableTrenutnoUlogovani = jTableTrenutnoUlogovani;
+    }
+
+    public JTextArea getjTextArea1() {
+        return jTextArea1;
+    }
+
+    public void setjTextArea1(JTextArea jTextArea1) {
+        this.jTextArea1 = jTextArea1;
     }
 
     /**
@@ -26,27 +92,227 @@ public class KlijentskaForma extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jButtonPosaljiSvima = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTableTrenutnoUlogovani = new javax.swing.JTable();
+        jButtonPosaljiJednom = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTablePoslednje3Poruke = new javax.swing.JTable();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTableOstalePoruke = new javax.swing.JTable();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setText("poruka:");
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jTextArea1.setText("Poruka koju salje ulogovani korisnik.");
+        jScrollPane1.setViewportView(jTextArea1);
+
+        jButtonPosaljiSvima.setText("Posalji Svima");
+        jButtonPosaljiSvima.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPosaljiSvimaActionPerformed(evt);
+            }
+        });
+
+        jTableTrenutnoUlogovani.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTableTrenutnoUlogovani);
+
+        jButtonPosaljiJednom.setText("Posalji Jednom");
+        jButtonPosaljiJednom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPosaljiJednomActionPerformed(evt);
+            }
+        });
+
+        jTablePoslednje3Poruke.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTablePoslednje3Poruke.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTablePoslednje3PorukeMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(jTablePoslednje3Poruke);
+
+        jTableOstalePoruke.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTableOstalePoruke.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableOstalePorukeMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(jTableOstalePoruke);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(68, 68, 68)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(17, 17, 17)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGap(97, 97, 97)
+                            .addComponent(jButtonPosaljiJednom))
+                        .addComponent(jButtonPosaljiSvima))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(69, 69, 69)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(127, 127, 127))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(64, 64, 64))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonPosaljiSvima)
+                        .addGap(5, 5, 5)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonPosaljiJednom)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(84, 84, 84))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonPosaljiSvimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPosaljiSvimaActionPerformed
+        String tekst = jTextArea1.getText();
+        if(tekst.length() > 200){
+            JOptionPane.showMessageDialog(null, "Predugacka poruka");
+            return;
+        }
+        Poruka p = new Poruka();
+        p.setPosiljalac(korisnik);
+        //p.setPrimalac(null);
+        p.setTekst(tekst);
+        p.setDatumVreme(new Date());
+        
+        KlijentskiZahtev kz = new KlijentskiZahtev(Operacije.POSALJI_SVIMA, p);
+        Komunikacija.getInstance().posaljiZahtev(kz);
+        ///
+    }//GEN-LAST:event_jButtonPosaljiSvimaActionPerformed
+
+    private void jButtonPosaljiJednomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPosaljiJednomActionPerformed
+       String tekst = jTextArea1.getText();
+        if(tekst.length() > 200){
+            JOptionPane.showMessageDialog(null, "Predugacka poruka");
+            return;
+        }
+        Poruka p = new Poruka();
+        int selektovaniRed = jTableTrenutnoUlogovani.getSelectedRow();
+        if(selektovaniRed == -1){
+            JOptionPane.showMessageDialog(null, "Niste izabrali red ");
+            return;
+        }
+        ModelTabeleKorisnika mtk = (ModelTabeleKorisnika) jTableTrenutnoUlogovani.getModel();
+        User primalac = mtk.getLista().get(selektovaniRed);
+        
+        p.setPosiljalac(korisnik);
+        p.setPrimalac(primalac);
+        p.setTekst(tekst);
+        p.setDatumVreme(new Date());
+        
+        KlijentskiZahtev kz = new KlijentskiZahtev(Operacije.POSALJI_JEDNOM, p);
+        Komunikacija.getInstance().posaljiZahtev(kz);
+        //
+    }//GEN-LAST:event_jButtonPosaljiJednomActionPerformed
+
+    private void jTablePoslednje3PorukeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePoslednje3PorukeMouseClicked
+        JTable tabela = (JTable) evt.getSource();
+        Point p = evt.getPoint();
+        int red = tabela.rowAtPoint(p);
+        
+        ModelTabelePoruka mtp = (ModelTabelePoruka) jTablePoslednje3Poruke.getModel();
+        String tekst = mtp.getLista().get(red).getTekst();
+        JOptionPane.showMessageDialog(null, tekst);
+    }//GEN-LAST:event_jTablePoslednje3PorukeMouseClicked
+
+    private void jTableOstalePorukeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableOstalePorukeMouseClicked
+        JTable tabela = (JTable) evt.getSource();
+        Point p = evt.getPoint();
+        int red = tabela.rowAtPoint(p);
+        
+        ModelTabelePoruka mtp2 = (ModelTabelePoruka) jTableOstalePoruke.getModel();
+        String tekst = mtp2.getLista().get(red).getTekst();
+        JOptionPane.showMessageDialog(null, tekst);
+    }//GEN-LAST:event_jTableOstalePorukeMouseClicked
+    
     /**
      * @param args the command line arguments
      */
+
+    
+    
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonPosaljiJednom;
+    private javax.swing.JButton jButtonPosaljiSvima;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTable jTableOstalePoruke;
+    private javax.swing.JTable jTablePoslednje3Poruke;
+    private javax.swing.JTable jTableTrenutnoUlogovani;
+    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }

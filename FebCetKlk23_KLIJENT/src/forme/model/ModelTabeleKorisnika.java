@@ -4,23 +4,33 @@
  */
 package forme.model;
 
+import java.util.ArrayList;
 import java.util.List;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
-import model.Poruka;
+import model.User;
 
 /**
  *
  * @author PC
  */
-public class ModelTabelePoruka extends AbstractTableModel {
+public class ModelTabeleKorisnika extends AbstractTableModel {
 
-    private List<Poruka> lista;
-    private String[] kolone = {"datumVreme","posiljalac","primalac","tekst"};
+    private List<User> lista;
+    private String[] kolone = {"id","korisnickoIme"};
 
-    public ModelTabelePoruka() {
+    public ModelTabeleKorisnika() {
     }
 
-    public ModelTabelePoruka(List<Poruka> lista) {
+    public ModelTabeleKorisnika(List<User> lista) {
+        this.lista = lista;
+    }
+
+    public List<User> getLista() {
+        return lista;
+    }
+
+    public void setLista(List<User> lista) {
         this.lista = lista;
     }
     
@@ -35,29 +45,14 @@ public class ModelTabelePoruka extends AbstractTableModel {
         return kolone.length;
     }
 
-    public List<Poruka> getLista() {
-        return lista;
-    }
-
-    public void setLista(List<Poruka> lista) {
-        this.lista = lista;
-    }
-    
-
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Poruka p = lista.get(rowIndex);
+        User u = lista.get(rowIndex);
         switch(columnIndex){
             case 0:
-                return p.getDatumVreme();
+                return u.getUserId();
             case 1:
-                return p.getPosiljalac().getUserId();
-            case 2:
-                return p.getPrimalac().getUserId();
-            case 3:
-                return p.getTekst().length() > 20 ?
-                        p.getTekst().substring(0,20)
-                        : p.getTekst();
+                return u.getKorisnickoIme();
             default:
                 return "NA";
         }
@@ -67,7 +62,5 @@ public class ModelTabelePoruka extends AbstractTableModel {
     public String getColumnName(int column) {
         return kolone[column];
     }
-    
-    
     
 }

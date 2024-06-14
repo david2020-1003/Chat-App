@@ -12,4 +12,8 @@ import java.io.Serializable;
  */
 public class Operacije implements Serializable {
     public static final int LOGIN = 1;
+    public static final int POSALJI_SVIMA = 2;
+    public static final int VRATI_SVE_ULOGOVANE = 3;
+    public static final int POSALJI_JEDNOM = 4;
+    public static final int VRATI_SVE_PORUKE_KORISNIKA = 5;
 }

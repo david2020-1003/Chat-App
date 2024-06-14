@@ -9,8 +9,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Poruka;
 import model.User;
 import operacije.Operacije;
 import transfer.KlijentskiZahtev;
@@ -41,6 +43,20 @@ public class ObradaKlijentskihZahteva extends Thread {
                 case Operacije.LOGIN:
                     User u = Controller.getInstance().loginUsera((User)kz.getParam());
                     so.setOdgovor(u);
+                    break;
+                case Operacije.POSALJI_SVIMA:
+                    Controller.getInstance().posaljiSvima((Poruka)kz.getParam());
+                    break;
+                case Operacije.VRATI_SVE_ULOGOVANE:
+                    List<User> ulogovani = Controller.getInstance().getUlogovaniKorisnici();
+                    so.setOdgovor(ulogovani);
+                    break;
+                case Operacije.POSALJI_JEDNOM:
+                    Controller.getInstance().posaljiJednom((Poruka)kz.getParam());
+                    break;
+                case Operacije.VRATI_SVE_PORUKE_KORISNIKA:
+                    List<Poruka> svePoruke = Controller.getInstance().vratiSvePorukeKorsinika((User)kz.getParam());
+                    so.setOdgovor(svePoruke);
                     break;
             }
             posaljiOdgovor(so);
