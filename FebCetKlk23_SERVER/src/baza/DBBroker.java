@@ -35,7 +35,7 @@ public class DBBroker {
             ps.setString(2, pass);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
-                int id = rs.getInt("adminId");
+                int id = rs.getInt("id");
                 String ime = rs.getString("ime");
                 String prezime = rs.getString("prezime");
                 a = new Admin(id, ime, prezime, username, pass);
@@ -91,18 +91,18 @@ public class DBBroker {
         List<Poruka> lista = new ArrayList<>();
         try {
             String upit = "SELECT * FROM PORUKA p JOIN USER pos ON\n" +
-                    "pos.userId = p.posiljalac JOIN USER prim ON\n" +
-                    "prim.userId = p.primalac LIMIT 5 OFFSET " + offset;
+                    "pos.id = p.posiljalac JOIN USER prim ON\n" +
+                    "prim.id = p.primalac LIMIT 5 OFFSET " + offset;
             
             PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
             ResultSet rs = ps.executeQuery();
             
             while(rs.next()){
                 int id = rs.getInt("p.id");
-                User posiljalac = new User(rs.getInt("pos.userId"),
+                User posiljalac = new User(rs.getInt("pos.id"),
                         rs.getString("pos.korisnickoIme"), 
                         rs.getString("pos.lozinka"));
-                User primalac = new User(rs.getInt("prim.userId"),
+                User primalac = new User(rs.getInt("prim.id"),
                         rs.getString("prim.korisnickoIme"), 
                         rs.getString("prim.lozinka"));
                 Timestamp datumVremeSQL = rs.getTimestamp("p.datumVreme");
@@ -130,7 +130,7 @@ public class DBBroker {
             ResultSet rs = ps.executeQuery();
             
             if(rs.next()){
-                int id = rs.getInt("userId");
+                int id = rs.getInt("id");
                 String korIme = rs.getString("korisnickoIme");
                 String lozinka = rs.getString("lozinka");
                 u = new User(id, korIme, lozinka);
@@ -152,7 +152,7 @@ public class DBBroker {
             ResultSet rs = st.executeQuery(upit);
             
             while(rs.next()){
-                int id = rs.getInt("userId");
+                int id = rs.getInt("id");
                 String korIme = rs.getString("korisnickoIme");
                 String lozinka = rs.getString("lozinka");
                 User u = new User(id, korIme, lozinka);
@@ -217,14 +217,14 @@ public class DBBroker {
         List<Poruka> svePoruke = new ArrayList<>();
         try {
             
-            String upit = "SELECT * FROM PORUKA P JOIN USER POS ON POS.USERID = p.POSILJALAC WHERE POSILJALAC =" + user.getUserId();
+            String upit = "SELECT * FROM PORUKA P JOIN USER POS ON POS.id = p.POSILJALAC WHERE POSILJALAC =" + user.getUserId();
             Statement st = Konekcija.getInstance().getConnection().createStatement();
             
             ResultSet rs = st.executeQuery(upit);
             
             while(rs.next()){
                 int id = rs.getInt("p.id");
-                User posiljalac = new User(rs.getInt("pos.userId"),
+                User posiljalac = new User(rs.getInt("pos.id"),
                         rs.getString("korisnickoIme"), 
                         rs.getString("lozinka"));
                 User primalac = user;

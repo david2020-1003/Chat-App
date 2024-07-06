@@ -71,7 +71,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldUsername">
       <Properties>
-        <Property name="text" type="java.lang.String" value="vanja@gmail.com"/>
+        <Property name="text" type="java.lang.String" value="david@gmail.com"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
@@ -81,7 +81,7 @@
     </Component>
     <Component class="javax.swing.JPasswordField" name="jPasswordField1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="vanja"/>
+        <Property name="text" type="java.lang.String" value="david"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonLogin">

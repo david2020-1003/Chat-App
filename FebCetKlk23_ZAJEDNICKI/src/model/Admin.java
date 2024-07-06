@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @author PC
  */
 public class Admin implements Serializable {
-    private int adminId;
+    private int id;
     private String ime;
     private String prezime;
     private String username;
@@ -20,8 +20,8 @@ public class Admin implements Serializable {
     public Admin() {
     }
 
-    public Admin(int adminId, String ime, String prezime, String username, String lozinka) {
-        this.adminId = adminId;
+    public Admin(int id, String ime, String prezime, String username, String lozinka) {
+        this.id = id;
         this.ime = ime;
         this.prezime = prezime;
         this.username = username;
@@ -29,11 +29,11 @@ public class Admin implements Serializable {
     }
 
     public int getAdminId() {
-        return adminId;
+        return id;
     }
 
     public void setAdminId(int adminId) {
-        this.adminId = adminId;
+        this.id = adminId;
     }
 
     public String getIme() {

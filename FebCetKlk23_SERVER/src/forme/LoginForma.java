@@ -39,11 +39,11 @@ public class LoginForma extends javax.swing.JFrame {
 
         jLabel1.setText("username:");
 
-        jTextFieldUsername.setText("vanja@gmail.com");
+        jTextFieldUsername.setText("david@gmail.com");
 
         jLabel2.setText("lozinka:");
 
-        jPasswordField1.setText("vanja");
+        jPasswordField1.setText("david");
 
         jButtonLogin.setText("LOGIN");
         jButtonLogin.addActionListener(new java.awt.event.ActionListener() {
