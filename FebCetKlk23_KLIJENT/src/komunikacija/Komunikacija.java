@@ -30,6 +30,8 @@ public class Komunikacija {
         }
     }
 
+    // Test commit
+
     public Komunikacija(Socket s) {
         this.s = s;
     }

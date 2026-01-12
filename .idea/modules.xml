@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/Chat-App.iml" filepath="$PROJECT_DIR$/.idea/Chat-App.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FebCetKlk23_KLIJENT/FebCetKlk23_KLIJENT.iml" filepath="$PROJECT_DIR$/FebCetKlk23_KLIJENT/FebCetKlk23_KLIJENT.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FebCetKlk23_SERVER/FebCetKlk23_SERVER.iml" filepath="$PROJECT_DIR$/FebCetKlk23_SERVER/FebCetKlk23_SERVER.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FebCetKlk23_ZAJEDNICKI/FebCetKlk23_ZAJEDNICKI.iml" filepath="$PROJECT_DIR$/FebCetKlk23_ZAJEDNICKI/FebCetKlk23_ZAJEDNICKI.iml" />
+    </modules>
+  </component>
+</project>
